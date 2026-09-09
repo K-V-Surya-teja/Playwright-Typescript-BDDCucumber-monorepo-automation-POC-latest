@@ -1,0 +1,22 @@
+trigger:
+  branches:
+    include:
+      - web-automation-integration
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '20.x'
+  displayName: 'Install Node.js'
+
+- script: npm ci
+  displayName: 'Install Dependencies'
+
+- script: npx playwright install --with-deps
+  displayName: 'Install Playwright Browsers'
+
+- script: npm run test:web
+  displayName: 'Run Web Automation Tests'
